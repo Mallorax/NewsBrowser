@@ -6,6 +6,8 @@ plugins {
 
 android {
     compileSdk 30
+    def localProperties = new Properties()
+    localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
     defaultConfig {
         applicationId "com.example.newsbrowser"
@@ -13,6 +15,7 @@ android {
         targetSdk 30
         versionCode 1
         versionName "1.0"
+        buildConfigField "String", "API_KEY",localProperties['apiKey']
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -52,8 +55,8 @@ dependencies {
     implementation "androidx.paging:paging-rxjava3:$paging_version"
 
     //rxjava
-    implementation "io.reactivex.rxjava3:rxkotlin:$rxjava_version"
-    implementation "io.reactivex.rxjava3:rxandroid:$rxjava_version"
+    implementation "io.reactivex.rxjava3:rxkotlin:3.0.1"
+    implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
     implementation "io.reactivex.rxjava3:rxjava:$rxjava_version"
 
     //retrofit
