@@ -48,7 +48,7 @@ dependencies {
     annotationProcessor "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     //paging
-    implementation "androidx.paging:paging-runtime:$paging_version"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
     implementation "androidx.paging:paging-rxjava3:$paging_version"
 
     //rxjava
