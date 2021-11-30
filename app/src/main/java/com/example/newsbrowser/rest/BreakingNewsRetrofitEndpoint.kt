@@ -11,6 +11,7 @@ interface BreakingNewsRetrofitEndpoint {
     fun getDefaultTopHeadlines(
         country: String = "us",
         apiKey: String = BuildConfig.API_KEY,
-        pageSize: Int = 10
+        pageSize: Int = 10,
+        page: Int = 1
     ): Single<NewsBrowserResponse>
 }
