@@ -1,7 +1,8 @@
-package com.example.newsbrowser
+package com.example.newsbrowser.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.newsbrowser.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

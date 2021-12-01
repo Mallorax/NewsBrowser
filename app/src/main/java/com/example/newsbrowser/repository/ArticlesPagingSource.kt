@@ -36,7 +36,8 @@ class ArticlesPagingSource @Inject constructor(
 
         return newsApi.getDefaultTopHeadlines(page = nextPageNumber)
             .subscribeOn(Schedulers.computation())
-            .map{t -> toLoadResult(t, nextPageNumber)}
+            .map{response -> toLoadResult(response, nextPageNumber)}
+            .onErrorReturn{t -> LoadResult.Error(t)}
     }
 
     private fun toLoadResult(response: NewsBrowserResponse, page: Int): LoadResult<Int, ArticleAppModel> {
