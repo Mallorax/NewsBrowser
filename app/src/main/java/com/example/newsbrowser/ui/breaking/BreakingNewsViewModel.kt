@@ -9,10 +9,12 @@ import androidx.paging.rxjava3.cachedIn
 import androidx.paging.rxjava3.flowable
 import com.example.newsbrowser.model.ArticleAppModel
 import com.example.newsbrowser.repository.ArticlesPagingSource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Flowable
 import javax.inject.Inject
 
-class BreakingNewsViewModel @Inject constructor(repo: ArticlesPagingSource) : ViewModel() {
+@HiltViewModel
+class BreakingNewsViewModel @Inject constructor(private val repo: ArticlesPagingSource) : ViewModel() {
 
     private val pager = Pager(
         PagingConfig(

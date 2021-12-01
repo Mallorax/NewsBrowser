@@ -29,10 +29,7 @@ class ArticlesPagingSource @Inject constructor(
     }
 
     override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, ArticleAppModel>> {
-        var nextPageNumber = params.key
-        if (nextPageNumber == null){
-            nextPageNumber = 1
-        }
+        val nextPageNumber = params.key ?: 1
 
         return newsApi.getDefaultTopHeadlines(page = nextPageNumber)
             .subscribeOn(Schedulers.computation())
@@ -43,8 +40,8 @@ class ArticlesPagingSource @Inject constructor(
     private fun toLoadResult(response: NewsBrowserResponse, page: Int): LoadResult<Int, ArticleAppModel> {
         return LoadResult.Page(
             response.articles.map { t -> mapNetModelToAppModel(t) },
-            null,
-            page,
+            prevKey = if (page == 1) null else page - 1,
+            nextKey = page + 1,
             LoadResult.Page.COUNT_UNDEFINED,
             LoadResult.Page.COUNT_UNDEFINED
         )

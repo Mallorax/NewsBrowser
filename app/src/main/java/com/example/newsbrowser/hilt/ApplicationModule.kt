@@ -19,7 +19,7 @@ class ApplicationModule {
     @Singleton
     fun provideRetrofit(): BreakingNewsRetrofitEndpoint {
         return Retrofit.Builder()
-            .baseUrl("https://newsapi.org/v2")
+            .baseUrl("https://newsapi.org/v2/")
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()

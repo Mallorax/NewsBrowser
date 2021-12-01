@@ -4,14 +4,15 @@ import com.example.newsbrowser.BuildConfig
 import com.example.newsbrowser.model.retrofitmodels.NewsBrowserResponse
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface BreakingNewsRetrofitEndpoint {
 
-    @GET("v2/top-headlines")
+    @GET("top-headlines")
     fun getDefaultTopHeadlines(
-        country: String = "us",
-        apiKey: String = BuildConfig.API_KEY,
-        pageSize: Int = 10,
-        page: Int = 1
+        @Query("country")country: String = "us",
+        @Query("apiKey")apiKey: String = BuildConfig.API_KEY,
+        @Query("pageSize")pageSize: Int = 10,
+        @Query("page")page: Int = 1
     ): Single<NewsBrowserResponse>
 }
