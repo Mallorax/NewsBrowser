@@ -6,12 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import autodispose2.AutoDispose.autoDisposable
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
 import com.example.newsbrowser.databinding.BreakingNewsFragmentBinding
+import com.example.newsbrowser.model.ArticleAppModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.rxjava3.core.Observer
 
 @AndroidEntryPoint
 class BreakingNewsFragment: Fragment() {
@@ -47,7 +50,13 @@ class BreakingNewsFragment: Fragment() {
 
     private fun observeNews(adapter: BreakingNewsAdapter){
         breakingNewsViewModel.getBreakingNews()
+            .doOnError { t ->
+                t.printStackTrace()
+                Snackbar.make(requireView(), "Error occurred: " +t.message, Snackbar.LENGTH_LONG).show()
+            }
             .to(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-            .subscribe{pagingData -> adapter.submitData(lifecycle, pagingData)}
+            .subscribe{pagingData ->
+                adapter.submitData(lifecycle, pagingData)
+            }
     }
 }

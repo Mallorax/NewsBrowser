@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso
 fun bindArticleThumbnail(imageView: ImageView, article: ArticleAppModel?){
     if (article != null){
         if (article.urlToImage.isNotEmpty()){
-            Picasso.get().load(article.urlToImage).into(imageView)
+            Picasso.get().load(article.urlToImage).fit().centerCrop().into(imageView)
         }else{
             imageView.visibility = View.GONE
         }
