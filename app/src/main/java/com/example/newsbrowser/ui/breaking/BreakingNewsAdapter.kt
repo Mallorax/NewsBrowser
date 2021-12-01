@@ -1,27 +1,44 @@
 package com.example.newsbrowser.ui.breaking
 
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.newsbrowser.databinding.ActivityMainBinding
 import com.example.newsbrowser.databinding.ArticleItemBinding
+import com.example.newsbrowser.databinding.ArticleItemBindingImpl
 import com.example.newsbrowser.model.ArticleAppModel
 
-class BreakingNewsAdapter(): PagingDataAdapter<ArticleAppModel, BreakingNewsAdapter.ArticleViewHolder>(DiffCallback) {
+class BreakingNewsAdapter(private val onArticleClickListener: OnArticleClickListener)
+    : PagingDataAdapter<ArticleAppModel, BreakingNewsAdapter.ArticleViewHolder>(DiffCallback) {
 
-
-
-    override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
-        TODO("Not yet implemented")
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
-        TODO("Not yet implemented")
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ArticleItemBindingImpl.inflate(inflater, parent, false)
+        return ArticleViewHolder(binding)
     }
 
-    class ArticleViewHolder(private val binding: ArticleItemBinding): RecyclerView.ViewHolder(binding.root) {
+    override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
+        val article = getItem(position)
+        holder.binding.articleImage.setOnClickListener{onArticleClickListener.onArticleClick(article, holder.itemView)}
+        if (article != null) {
+            holder.bind(article)
+        }
+    }
 
+
+    class ArticleViewHolder(val binding: ArticleItemBinding): RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(article: ArticleAppModel){
+             binding.article = article
+             binding.executePendingBindings()
+         }
+    }
+
+    class OnArticleClickListener(val clickListener: (article: ArticleAppModel?, view: View) -> Unit){
+        fun onArticleClick(article: ArticleAppModel?, view: View) = clickListener(article, view)
     }
 
     companion object DiffCallback: DiffUtil.ItemCallback<ArticleAppModel>(){
