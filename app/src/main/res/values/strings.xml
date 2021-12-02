@@ -20,4 +20,7 @@
     <string name="russian">Russian</string>
     <string name="save">save</string>
     <string name="language_save_explanation">Choose language of articles you want to see, when using search function</string>
+    <string name="preference_language_key">article_search_language_preference</string>
+    <string name="chosen_language_key">chosen_language</string>
+    <string name="checked_radio_key">checked_radio</string>
 </resources>
