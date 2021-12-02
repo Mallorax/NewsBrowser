@@ -6,4 +6,18 @@
     <string name="articles_browser">Articles browser</string>
     <string name="settings_text">Settings</string>
     <string name="search">Search</string>
+    <string name="arabic">Arabic</string>
+    <string name="german">German</string>
+    <string name="english">English</string>
+    <string name="spanish">Spanish</string>
+    <string name="french">French</string>
+    <string name="hebrew">Hebrew</string>
+    <string name="italian">Italian</string>
+    <string name="dutch">Dutch</string>
+    <string name="norwegian">Norwegian</string>
+    <string name="portuguese">Portuguese</string>
+    <string name="polish">Polish</string>
+    <string name="russian">Russian</string>
+    <string name="save">save</string>
+    <string name="language_save_explanation">Choose language of articles you want to see, when using search function</string>
 </resources>
