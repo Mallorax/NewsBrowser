@@ -1,7 +1,6 @@
 package com.example.newsbrowser.hilt
 
-import androidx.lifecycle.ViewModel
-import com.example.newsbrowser.repository.ArticlesPagingSource
+import com.example.newsbrowser.repository.BreakingNewsPagingSource
 import com.example.newsbrowser.rest.BreakingNewsRetrofitEndpoint
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,7 +16,7 @@ class ViewModelModule {
     @Inject
     @Singleton
     @ViewModelScoped
-    fun provideBreakingNewsDataSource(newsApi: BreakingNewsRetrofitEndpoint): ArticlesPagingSource{
-        return ArticlesPagingSource(newsApi)
+    fun provideBreakingNewsDataSource(newsApi: BreakingNewsRetrofitEndpoint): BreakingNewsPagingSource{
+        return BreakingNewsPagingSource(newsApi)
     }
 }

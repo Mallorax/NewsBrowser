@@ -1,51 +1,44 @@
 package com.example.newsbrowser.repository
 
-import androidx.paging.PagingState
-import androidx.paging.rxjava3.RxPagingSource
 import com.example.newsbrowser.model.ArticleAppModel
-import com.example.newsbrowser.model.mapNetModelToAppModel
-import com.example.newsbrowser.model.retrofitmodels.NewsBrowserResponse
+import com.example.newsbrowser.model.NewsRequest
 import com.example.newsbrowser.rest.BreakingNewsRetrofitEndpoint
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class ArticlesPagingSource @Inject constructor(
-    private val newsApi: BreakingNewsRetrofitEndpoint): RxPagingSource<Int, ArticleAppModel>() {
+    private val newsApi: BreakingNewsRetrofitEndpoint
+) : BreakingNewsPagingSource(newsApi) {
 
-    override fun getRefreshKey(state: PagingState<Int, ArticleAppModel>): Int? {
-        val anchorPos = state.anchorPosition ?: return null
-        val anchorPage = state.closestPageToPosition(anchorPos) ?: return null
-        val prevKey = anchorPage.prevKey
-        if (prevKey != null){
-            return prevKey + 1
-        }
-        val nextKey = anchorPage.nextKey
-        if (nextKey != null){
-            return nextKey - 1
-        }
+    //set default request
+    private var request: NewsRequest = NewsRequest()
 
-        return null
-    }
+    fun setRequest(request: NewsRequest){
+         this.request = request
+     }
 
     override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, ArticleAppModel>> {
         val nextPageNumber = params.key ?: 1
+        return if (request.query.isNullOrEmpty()) {
+            newsApi.getArticles(page = nextPageNumber,
+                sortBy = request.sortOrder.order,
+                language = request.language.lang)
+                .subscribeOn(Schedulers.computation())
+                .map { response -> toLoadResult(response, nextPageNumber) }
+                .onErrorReturn { t -> LoadResult.Error(t) }
+        } else {
+            newsApi.getArticlesWithQ(
+                query = request.query!!,
+                page = nextPageNumber,
+                sortBy = request.sortOrder.order,
+                language = request.language.lang
+            )
+                .subscribeOn(Schedulers.computation())
+                .map { response -> toLoadResult(response, nextPageNumber) }
+                .onErrorReturn { t -> LoadResult.Error(t) }
 
-        return newsApi.getDefaultTopHeadlines(page = nextPageNumber)
-            .subscribeOn(Schedulers.computation())
-            .map{response -> toLoadResult(response, nextPageNumber)}
-            .onErrorReturn{t -> LoadResult.Error(t)}
+        }
     }
 
-    private fun toLoadResult(response: NewsBrowserResponse, page: Int): LoadResult<Int, ArticleAppModel> {
-        return LoadResult.Page(
-            response.articles.map { t -> mapNetModelToAppModel(t) },
-            prevKey = if (page == 1) null else page - 1,
-            nextKey = page + 1,
-            LoadResult.Page.COUNT_UNDEFINED,
-            LoadResult.Page.COUNT_UNDEFINED
-        )
-    }
 }
-
-
