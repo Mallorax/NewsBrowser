@@ -1,5 +1,6 @@
 package com.example.newsbrowser.ui.breaking
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -17,13 +18,19 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class BreakingNewsFragment: Fragment() {
+class BreakingNewsFragment : Fragment() {
 
     private val breakingNewsViewModel: BreakingNewsViewModel by viewModels()
     private var _binding: BreakingNewsFragmentBinding? = null
     private val binding get() = _binding!!
+    private val newsRequest = NewsRequest()
     val adapter = createAdapter()
-
+    private val sharedPref by lazy {
+        requireActivity().getSharedPreferences(
+            getString(R.string.preference_language_key),
+            Context.MODE_PRIVATE
+        )
+    }
 
 
     override fun onCreateView(
@@ -33,6 +40,13 @@ class BreakingNewsFragment: Fragment() {
     ): View? {
         _binding = BreakingNewsFragmentBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
+
+        newsRequest.language = NewsRequest.Language.valueOf(
+            sharedPref.getString(
+                getString(R.string.chosen_language_key),
+                NewsRequest.Language.ENGLISH.name
+            )!!
+        )
 
         observeNews(adapter)
         val recycler = binding.articleRecyclerView
@@ -53,16 +67,22 @@ class BreakingNewsFragment: Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (!newText.isNullOrEmpty()){
-                    breakingNewsViewModel.getArticles(NewsRequest(query = newText))
+                if (!newText.isNullOrEmpty()) {
+                    newsRequest.query = newText
+                    breakingNewsViewModel.getArticles(newsRequest)
                         .doOnError { t ->
                             t.printStackTrace()
-                            Snackbar.make(requireView(), "Error occurred: " +t.message, Snackbar.LENGTH_LONG).show()
-                        }.to(autoDisposable(AndroidLifecycleScopeProvider.from(this@BreakingNewsFragment)))
-                        .subscribe{pagingData ->
+                            Snackbar.make(
+                                requireView(),
+                                "Error occurred: " + t.message,
+                                Snackbar.LENGTH_LONG
+                            ).show()
+                        }
+                        .to(autoDisposable(AndroidLifecycleScopeProvider.from(this@BreakingNewsFragment)))
+                        .subscribe { pagingData ->
                             adapter.submitData(lifecycle, pagingData)
                         }
-                }else{
+                } else {
                     observeNews(adapter)
                 }
                 return true
@@ -70,9 +90,9 @@ class BreakingNewsFragment: Fragment() {
         })
     }
 
-    private fun createAdapter(): BreakingNewsAdapter{
+    private fun createAdapter(): BreakingNewsAdapter {
         return BreakingNewsAdapter(BreakingNewsAdapter.OnArticleClickListener { article, _ ->
-            if (article?.url != null){
+            if (article?.url != null) {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
                 startActivity(Intent.createChooser(intent, "Browse with:"))
             }
@@ -80,14 +100,15 @@ class BreakingNewsFragment: Fragment() {
         })
     }
 
-    private fun observeNews(adapter: BreakingNewsAdapter){
+    private fun observeNews(adapter: BreakingNewsAdapter) {
         breakingNewsViewModel.getBreakingNews()
             .doOnError { t ->
                 t.printStackTrace()
-                Snackbar.make(requireView(), "Error occurred: " +t.message, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(requireView(), "Error occurred: " + t.message, Snackbar.LENGTH_LONG)
+                    .show()
             }
             .to(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-            .subscribe{pagingData ->
+            .subscribe { pagingData ->
                 adapter.submitData(lifecycle, pagingData)
             }
     }

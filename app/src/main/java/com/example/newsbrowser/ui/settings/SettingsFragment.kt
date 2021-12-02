@@ -9,12 +9,11 @@ import androidx.fragment.app.Fragment
 import com.example.newsbrowser.R
 import com.example.newsbrowser.databinding.SettingsFragmentBinding
 import com.example.newsbrowser.model.NewsRequest
-import com.google.android.material.radiobutton.MaterialRadioButton
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SettingsFragment: Fragment() {
+class SettingsFragment : Fragment() {
 
     private var _binding: SettingsFragmentBinding? = null
     private val binding get() = _binding!!
@@ -22,8 +21,10 @@ class SettingsFragment: Fragment() {
     private lateinit var lang: NewsRequest.Language
     private val sharedPref by lazy {
         requireActivity().getSharedPreferences(
-        getString(R.string.preference_language_key),
-        Context.MODE_PRIVATE)  }
+            getString(R.string.preference_language_key),
+            Context.MODE_PRIVATE
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,16 +33,20 @@ class SettingsFragment: Fragment() {
     ): View? {
         _binding = SettingsFragmentBinding.inflate(inflater)
         lang = NewsRequest.Language.valueOf(
-            sharedPref.getString(getString(R.string.chosen_language_key),
-            NewsRequest.Language.ENGLISH.name)!!)
-        val checkedId = sharedPref.getInt(getString(R.string.checked_radio_key), R.id.english_option)
+            sharedPref.getString(
+                getString(R.string.chosen_language_key),
+                NewsRequest.Language.ENGLISH.name
+            )!!
+        )
+        val checkedId =
+            sharedPref.getInt(getString(R.string.checked_radio_key), R.id.english_option)
         binding.languageRadioGroup.check(checkedId)
         binding.lifecycleOwner = viewLifecycleOwner
         setUpAction()
         return binding.root
     }
 
-    fun setUpAction(){
+    private fun setUpAction() {
         binding.languageRadioGroup.setOnCheckedChangeListener { group, checkedId ->
             lang = when (checkedId) {
                 R.id.arabic_option -> NewsRequest.Language.ARABIC
@@ -61,12 +66,12 @@ class SettingsFragment: Fragment() {
         }
 
         binding.saveButton.setOnClickListener {
-            with(sharedPref.edit()){
+            with(sharedPref.edit()) {
                 putString(getString(R.string.chosen_language_key), lang.name)
                 apply()
             }
             val checkedRadioButton = binding.languageRadioGroup.checkedRadioButtonId
-            with(sharedPref.edit()){
+            with(sharedPref.edit()) {
                 putInt(getString(R.string.checked_radio_key), checkedRadioButton)
                 apply()
             }
