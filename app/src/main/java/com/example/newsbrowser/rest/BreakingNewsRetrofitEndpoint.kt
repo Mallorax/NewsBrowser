@@ -15,4 +15,23 @@ interface BreakingNewsRetrofitEndpoint {
         @Query("pageSize")pageSize: Int = 10,
         @Query("page")page: Int = 1
     ): Single<NewsBrowserResponse>
+
+    @GET("everything")
+    fun getArticles(
+        @Query("language")language: String = "en",
+        @Query("sortBy") sortBy: String = "publishedAt",
+        @Query("apiKey")apiKey: String = BuildConfig.API_KEY,
+        @Query("pageSize")pageSize: Int = 10,
+        @Query("page")page: Int = 1
+    ): Single<NewsBrowserResponse>
+
+    @GET("everything")
+    fun getArticlesWithQ(
+        @Query("q") query: String,
+        @Query("language")language: String = "en",
+        @Query("sortBy") sortBy: String = "publishedAt",
+        @Query("apiKey")apiKey: String = BuildConfig.API_KEY,
+        @Query("pageSize")pageSize: Int = 10,
+        @Query("page")page: Int = 1
+    ): Single<NewsBrowserResponse>
 }

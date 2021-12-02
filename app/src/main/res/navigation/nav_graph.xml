@@ -8,4 +8,13 @@
         android:name="com.example.newsbrowser.ui.breaking.BreakingNewsFragment"
         android:label="@string/breaking_news"/>
 
+    <fragment
+        android:id="@+id/articles_browser_fragment"
+        android:name="com.example.newsbrowser.ui.articles.ArticlesBrowserFragment"
+        android:label="@string/articles_browser"/>
+
+    <fragment android:id="@+id/settings_fragment"
+        android:name="com.example.newsbrowser.ui.settings.SettingsFragment"
+        android:label="@string/settings_text"/>
+
 </navigation>
