@@ -8,4 +8,15 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|withText" />
 
+    <item
+        android:id="@+id/relevancy"
+        android:title="@string/relevancy"/>
+    <item
+        android:id="@+id/popularity"
+        android:title="@string/popularity"/>
+
+    <item
+        android:id="@+id/publication_date"
+        android:title="@string/publication_date"/>
+
 </menu>

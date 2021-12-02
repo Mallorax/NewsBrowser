@@ -23,4 +23,7 @@
     <string name="preference_language_key">article_search_language_preference</string>
     <string name="chosen_language_key">chosen_language</string>
     <string name="checked_radio_key">checked_radio</string>
+    <string name="relevancy">Relevancy</string>
+    <string name="popularity">Popularity</string>
+    <string name="publication_date">Publication date</string>
 </resources>

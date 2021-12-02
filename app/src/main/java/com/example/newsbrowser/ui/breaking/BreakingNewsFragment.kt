@@ -48,7 +48,7 @@ class BreakingNewsFragment : Fragment() {
             )!!
         )
 
-        observeNews(adapter)
+        observeBreakingNews()
         val recycler = binding.articleRecyclerView
         recycler.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         recycler.adapter = adapter
@@ -63,31 +63,32 @@ class BreakingNewsFragment : Fragment() {
         val searchView = searchViewItem.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                observeArticles()
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (!newText.isNullOrEmpty()) {
                     newsRequest.query = newText
-                    breakingNewsViewModel.getArticles(newsRequest)
-                        .doOnError { t ->
-                            t.printStackTrace()
-                            Snackbar.make(
-                                requireView(),
-                                "Error occurred: " + t.message,
-                                Snackbar.LENGTH_LONG
-                            ).show()
-                        }
-                        .to(autoDisposable(AndroidLifecycleScopeProvider.from(this@BreakingNewsFragment)))
-                        .subscribe { pagingData ->
-                            adapter.submitData(lifecycle, pagingData)
-                        }
+                    observeArticles()
                 } else {
-                    observeNews(adapter)
+                    observeBreakingNews()
                 }
                 return true
             }
         })
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.relevancy -> newsRequest.sortOrder = NewsRequest.SortOrder.RELEVANCY
+            R.id.popularity -> newsRequest.sortOrder = NewsRequest.SortOrder.POPULARITY
+            R.id.publication_date -> newsRequest.sortOrder = NewsRequest.SortOrder.PUBLICATION_DATE
+            R.id.article_search -> newsRequest.sortOrder = newsRequest.sortOrder
+            else -> newsRequest.sortOrder = NewsRequest.SortOrder.PUBLICATION_DATE
+        }
+        return true
     }
 
     private fun createAdapter(): BreakingNewsAdapter {
@@ -96,11 +97,26 @@ class BreakingNewsFragment : Fragment() {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
                 startActivity(Intent.createChooser(intent, "Browse with:"))
             }
-
         })
     }
 
-    private fun observeNews(adapter: BreakingNewsAdapter) {
+    private fun observeArticles(){
+        breakingNewsViewModel.getArticles(newsRequest)
+            .doOnError { t ->
+                t.printStackTrace()
+                Snackbar.make(
+                    requireView(),
+                    "Error occurred: " + t.message,
+                    Snackbar.LENGTH_LONG
+                ).show()
+            }
+            .to(autoDisposable(AndroidLifecycleScopeProvider.from(this@BreakingNewsFragment)))
+            .subscribe { pagingData ->
+                adapter.submitData(lifecycle, pagingData)
+            }
+    }
+
+    private fun observeBreakingNews() {
         breakingNewsViewModel.getBreakingNews()
             .doOnError { t ->
                 t.printStackTrace()
