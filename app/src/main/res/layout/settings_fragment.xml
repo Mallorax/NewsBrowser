@@ -16,71 +16,86 @@
             android:text="@string/language_save_explanation"/>
 
         <RadioGroup
+            android:id="@+id/language_radio_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal">
 
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/arabic_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/arabic"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/german_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/german"/>
+
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/english_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/english"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/spanish_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/spanish"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/french_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/french"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/hebrew_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/hebrew"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/italian_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/italian"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/dutch_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/dutch"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/norwegian_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/norwegian"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/portuguese_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/portuguese"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/polish_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/polish"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/russian_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/russian"/>
         </RadioGroup>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
