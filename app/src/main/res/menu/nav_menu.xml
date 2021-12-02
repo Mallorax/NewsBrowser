@@ -5,9 +5,6 @@
             android:id="@+id/breaking_news_fragment"
             android:title="@string/breaking_news"/>
         <item
-            android:id="@+id/articles_browser_fragment"
-            android:title="@string/articles_browser"/>
-        <item
             android:id="@+id/settings_fragment"
             android:title="@string/settings_text"/>
     </group>

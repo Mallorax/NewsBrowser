@@ -21,6 +21,7 @@ interface BreakingNewsRetrofitEndpoint {
         @Query("language")language: String = "en",
         @Query("sortBy") sortBy: String = "publishedAt",
         @Query("apiKey")apiKey: String = BuildConfig.API_KEY,
+        @Query("from")from: String = "2021-01-01",
         @Query("pageSize")pageSize: Int = 10,
         @Query("page")page: Int = 1
     ): Single<NewsBrowserResponse>

@@ -1,5 +1,6 @@
 package com.example.newsbrowser.hilt
 
+import com.example.newsbrowser.repository.ArticlesPagingSource
 import com.example.newsbrowser.repository.BreakingNewsPagingSource
 import com.example.newsbrowser.rest.BreakingNewsRetrofitEndpoint
 import dagger.Module
@@ -18,5 +19,12 @@ class ViewModelModule {
     @ViewModelScoped
     fun provideBreakingNewsDataSource(newsApi: BreakingNewsRetrofitEndpoint): BreakingNewsPagingSource{
         return BreakingNewsPagingSource(newsApi)
+    }
+
+    @Inject
+    @Singleton
+    @ViewModelScoped
+    fun provideArticlesDataSource(newsApi: BreakingNewsRetrofitEndpoint): ArticlesPagingSource{
+        return ArticlesPagingSource(newsApi)
     }
 }

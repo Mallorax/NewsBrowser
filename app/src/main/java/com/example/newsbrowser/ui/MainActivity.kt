@@ -29,11 +29,7 @@ class MainActivity : AppCompatActivity() {
     private fun setUpNavigation() {
         val navView = bindig.navView
         navView.setupWithNavController(navController)
-        val appBarConfig = AppBarConfiguration.Builder(
-            R.id.articles_browser_fragment,
-            R.id.breaking_news_fragment
-        )
-            .setOpenableLayout(bindig.drawerLayout).build()
+        val appBarConfig = AppBarConfiguration(navController.graph, bindig.drawerLayout)
         setSupportActionBar(bindig.appToolbar)
         setupActionBarWithNavController(navController, appBarConfig)
     }

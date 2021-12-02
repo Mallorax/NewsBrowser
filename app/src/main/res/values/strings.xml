@@ -5,4 +5,5 @@
     <string name="lorem_ipsum_short">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="articles_browser">Articles browser</string>
     <string name="settings_text">Settings</string>
+    <string name="search">Search</string>
 </resources>
